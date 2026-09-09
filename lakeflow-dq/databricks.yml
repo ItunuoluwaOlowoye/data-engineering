@@ -1,0 +1,37 @@
+# Databricks Asset Bundle (DAB) config
+
+bundle:
+  name: dq-demo
+
+include:
+  - databricks.yml
+  - resources/**
+  - src/**
+
+variables:
+  catalog:
+    description: "Unity Catalog name"
+    default: "workspace"
+
+  schema:
+    description: "Schema name"
+    default: "demo"
+
+  volume_files:
+    description: "Path to files used for data ingestion"
+    default: "/Volumes/workspace/demo/files"
+
+  dab_target_name:
+    description: "Name of the target environment to use for DAB operations"
+    default: "dev"
+
+  schema_prefix:
+    description: "Optional schema prefix used for workstation-isolated dev deployments"
+    default: ""
+
+targets:
+  dev:
+    mode: development
+    workspace:
+      host: https://dbc-0474d945-4a08.cloud.databricks.com
+      root_path: ~/.bundle/${bundle.name}/dev

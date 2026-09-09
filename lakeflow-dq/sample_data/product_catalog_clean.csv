@@ -1,0 +1,16 @@
+product_id,product_name,sku_code,category,unit_price,last_updated_date
+1001,Wireless Mouse,SKU00123,Electronics,29.99,2026-01-15
+1002,Ceramic Mixing Bowl,SKU00456,Kitchenware,14.50,2026-01-15
+1003,Sticky Notes Pack,SKU00789,Office Supplies,3.25,2026-01-16
+1004,Office Chair,SKU01011,Furniture,199.99,2026-01-16
+1005,Cotton T-Shirt,SKU01213,Apparel,45.00,2026-01-17
+1006,Bluetooth Speaker,SKU01415,Electronics,89.99,2026-01-17
+1007,Stainless Steel Whisk,SKU01617,Kitchenware,22.75,2026-01-18
+1008,Ballpoint Pen Set,SKU01819,Office Supplies,5.99,2026-01-18
+1009,Bookshelf,SKU02021,Furniture,349.00,2026-01-19
+1010,Wool Scarf,SKU02223,Apparel,60.50,2026-01-19
+1011,USB-C Hub,SKU02425,Electronics,129.99,2026-01-20
+1012,Cutting Board,SKU02627,Kitchenware,18.00,2026-01-20
+1013,Stapler,SKU02829,Office Supplies,7.49,2026-01-21
+1014,Standing Desk,SKU03031,Furniture,275.25,2026-01-21
+1015,Canvas Tote Bag,SKU03233,Apparel,32.99,2026-01-22
