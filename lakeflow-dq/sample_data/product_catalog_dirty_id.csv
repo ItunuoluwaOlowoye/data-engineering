@@ -1,0 +1,9 @@
+product_id,product_name,sku_code,category,unit_price,last_updated_date
+2004,Monitor Stand,SKU04004,Electronics,34.99,2026-02-11
+2005,Throw Blanket,SKU04005,Home Decor,39.99,2026-02-12
+,Wall Clock,SKU04006,Home Decor,19.99,2026-02-12
+2007,Espresso Cup Set,SKU04007,Kitchenware,22.50,2026-02-13
+2008,Laptop Stand,SKU245,Electronics,45.00,2026-02-13
+2009,Canvas Backpack,SKU04009,Apparel,54.99,2026-02-14
+1002,Ceramic Mixing Bowl,SKU00456,Kitchenware,15.25,2026-02-14
+2010,Reading Lamp,SKU04010,Home Decor,28.99,2026-02-14
