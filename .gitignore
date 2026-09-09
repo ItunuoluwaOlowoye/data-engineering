@@ -3,6 +3,9 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# planning files
+plan/
+
 # C extensions
 *.so
 
