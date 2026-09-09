@@ -1,0 +1,20 @@
+targets:
+  dev:
+    resources:
+      schemas:
+        bronze:
+          name: bronze
+          catalog_name: ${var.catalog}
+          comment: "Bronze tables for the Lakeflow DQ demo"
+        silver:
+          name: silver
+          catalog_name: ${var.catalog}
+          comment: "Silver and quarantine tables for the Lakeflow DQ demo"
+        gold:
+          name: gold
+          catalog_name: ${var.catalog}
+          comment: "Gold tables for the Lakeflow DQ demo"
+        ops:
+          name: ops
+          catalog_name: ${var.catalog}
+          comment: "Pipeline event log for the Lakeflow DQ demo"

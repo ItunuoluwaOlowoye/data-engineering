@@ -4,18 +4,19 @@ bundle:
   name: dq-demo
 
 include:
-  - databricks.yml
-  - resources/**
-  - src/**
+  - resources/pipeline.yml
+  - resources/schemas.yml
+
+sync:
+  include:
+    - databricks.yml
+    - resources/**
+    - src/**
 
 variables:
   catalog:
     description: "Unity Catalog name"
     default: "workspace"
-
-  schema:
-    description: "Schema name"
-    default: "demo"
 
   volume_files:
     description: "Path to files used for data ingestion"
@@ -25,13 +26,9 @@ variables:
     description: "Name of the target environment to use for DAB operations"
     default: "dev"
 
-  schema_prefix:
-    description: "Optional schema prefix used for workstation-isolated dev deployments"
-    default: ""
-
 targets:
   dev:
-    mode: development
+    mode: production
     workspace:
       host: https://dbc-0474d945-4a08.cloud.databricks.com
       root_path: ~/.bundle/${bundle.name}/dev

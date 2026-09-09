@@ -1,0 +1,35 @@
+﻿targets:
+  dev:
+    resources:
+      pipelines:
+        lakeflow_dq_pipeline:
+          name: "Lakeflow DQ Pipeline"
+          tags:
+            application: "lakeflow_dq"
+            component: "ingestion"
+            managed_by: "dab"
+            deployment_source: "cicd"
+          event_log:
+            catalog: "${resources.schemas.ops.catalog_name}"
+            schema: "${resources.schemas.ops.name}"
+            name: "event_log"
+          catalog: "workspace"
+          schema: "demo"
+          channel: CURRENT
+          development: false
+          continuous: false
+          photon: true
+          serverless: true
+          lifecycle:
+            prevent_destroy: true
+
+          configuration:
+            catalog: "workspace"
+            bronze_schema: "${resources.schemas.bronze.name}"
+            silver_schema: "${resources.schemas.silver.name}"
+            gold_schema: "${resources.schemas.gold.name}"
+            volume: "${var.volume_files}"
+
+          libraries:
+            - file:
+                path: ../src/pipeline.py
