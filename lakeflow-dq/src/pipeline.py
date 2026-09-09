@@ -5,9 +5,9 @@ from pyspark import pipelines as dp
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
-from src.constants import BRONZE_SCHEMA, CATALOG, SILVER_SCHEMA, TABLE_NAME, VOLUME
-from src.helpers import table_fqn
-from src.schema import (
+from constants import BRONZE_SCHEMA, CATALOG, SILVER_SCHEMA, TABLE_NAME, VOLUME
+from helpers import table_fqn
+from schema import (
     BRONZE_OUTPUT_SCHEMA,
     QUARANTINE_OUTPUT_SCHEMA,
     SILVER_OUTPUT_SCHEMA,
@@ -27,7 +27,9 @@ QUARANTINE_TABLE = table_fqn(catalog=CATALOG, schema=SILVER_SCHEMA, table_name=f
 def product_bronze():
     """Read raw product data into the bronze table."""
     df = (
-        spark.readStream.format("csv")
+        spark.readStream.format("cloudFiles")
+        .option("cloudFiles.format", "csv")
+        .option("cloudFiles.inferColumnTypes", True)
         .load(f"{VOLUME}/products")
         .select(
             "*",
@@ -35,6 +37,7 @@ def product_bronze():
             F.col("_metadata.file_path").alias("_source_file"),
         )
     )
+
     return df.select(BRONZE_OUTPUT_SCHEMA.fieldNames())
 
 @dp.table(
