@@ -6,6 +6,7 @@ bundle:
 include:
   - resources/pipeline.yml
   - resources/schemas.yml
+  - resources/alerts.yml
 
 sync:
   include:
@@ -25,6 +26,11 @@ variables:
   dab_target_name:
     description: "Name of the target environment to use for DAB operations"
     default: "dev"
+
+  warehouse_id:
+    description: "SQL warehouse used to run the expectation-violation alert"
+    lookup:
+      warehouse: "Serverless Starter Warehouse"
 
 targets:
   dev:

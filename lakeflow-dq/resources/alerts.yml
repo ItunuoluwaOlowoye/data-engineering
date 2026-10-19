@@ -1,0 +1,40 @@
+targets:
+  dev:
+    resources:
+      alerts:
+        expectation_violations:
+          display_name: "[${bundle.target}] Lakeflow DQ expectation violations"
+          warehouse_id: ${var.warehouse_id}
+          query_text: >-
+            SELECT SUM(row_expectations.failed_records) AS failed_records
+            FROM (
+              SELECT
+                explode(
+                  from_json(
+                    details:flow_progress:data_quality:expectations,
+                    'array<struct<name: string, dataset: string, passed_records: int, failed_records: int>>'
+                  )
+                ) AS row_expectations
+              FROM ${resources.schemas.ops.catalog_name}.${resources.schemas.ops.name}.event_log
+              WHERE event_type = 'flow_progress'
+                AND timestamp >= current_timestamp() - INTERVAL 1 DAY
+            )
+
+          evaluation:
+            comparison_operator: GREATER_THAN
+            source:
+              name: failed_records
+              display: failed_records
+            threshold:
+              value:
+                double_value: 0
+            empty_result_state: OK
+            notification:
+              notify_on_ok: false
+              subscriptions:
+                - user_email: ${workspace.current_user.userName}
+
+          schedule:
+            pause_status: UNPAUSED
+            quartz_cron_schedule: "0 0 8 * * ?"
+            timezone_id: "UTC"
