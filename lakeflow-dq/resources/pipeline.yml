@@ -13,6 +13,13 @@
             catalog: "${resources.schemas.ops.catalog_name}"
             schema: "${resources.schemas.ops.name}"
             name: "event_log"
+          notifications:
+            - email_recipients:
+                - "${workspace.current_user.userName}"
+              alerts:
+                - "on-update-failure"
+                - "on-update-fatal-failure"
+                - "on-flow-failure"
           catalog: "workspace"
           schema: "demo"
           channel: CURRENT
@@ -29,6 +36,8 @@
             silver_schema: "${resources.schemas.silver.name}"
             gold_schema: "${resources.schemas.gold.name}"
             volume: "${var.volume_files}"
+            pipelines.numUpdateRetryAttempts: "0"
+            pipelines.maxFlowRetryAttempts: "0"
 
           libraries:
             - file:
