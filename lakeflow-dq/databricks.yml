@@ -32,9 +32,15 @@ variables:
     lookup:
       warehouse: "Serverless Starter Warehouse"
 
+  sp_app_id:
+    description: "Application ID of the service principal that runs the pipeline"
+    default: "a0cc3696-19fc-4ce7-800c-3ac0f66f7895"
+
 targets:
   dev:
     mode: production
+    run_as:
+      service_principal_name: ${var.sp_app_id}
     workspace:
       host: https://dbc-0474d945-4a08.cloud.databricks.com
       root_path: ~/.bundle/${bundle.name}/dev
