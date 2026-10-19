@@ -19,6 +19,9 @@ BRONZE_TABLE = table_fqn(catalog=CATALOG, schema=BRONZE_SCHEMA, table_name=TABLE
 SILVER_TABLE = table_fqn(catalog=CATALOG, schema=SILVER_SCHEMA, table_name=TABLE_NAME)
 QUARANTINE_TABLE = table_fqn(catalog=CATALOG, schema=SILVER_SCHEMA, table_name=f"{TABLE_NAME}_quarantine")
 
+PRIMARY_KEY_CONDITION = "product_id IS NOT NULL"
+SKU_FORMAT_CONDITION = "sku_code IS NULL OR length(sku_code) = 8"
+
 @dp.table(
     name=BRONZE_TABLE,
     comment="Bronze table: raw product data",
@@ -46,8 +49,8 @@ def product_bronze():
     table_properties={"quality": "silver"},
 )
 # Expectations
-@dp.expect("sku_format", "sku_code IS NULL OR length(sku_code) = 8")
-@dp.expect_or_fail("primary_key", "product_id IS NOT NULL")
+@dp.expect_or_drop("8_digit_sku", SKU_FORMAT_CONDITION)
+@dp.expect_or_fail("primary_key", PRIMARY_KEY_CONDITION)
 def product_silver():
     """Read cleaned product data into the silver table."""
     return dp.read_stream(BRONZE_TABLE).select(SILVER_OUTPUT_SCHEMA.fieldNames())
@@ -57,9 +60,10 @@ def product_silver():
     comment="Quarantine table for invalid product data",
     table_properties={"quality": "quarantine"},
 )
-#Expectations
-@dp.expect_or_drop("sku_format", "sku_code IS NOT NULL AND length(sku_code) <> 8")
-@dp.expect_or_drop("primary_key", "product_id IS NULL")
 def product_quarantine():
     """Read invalid product data into the quarantine table."""
-    return dp.read_stream(BRONZE_TABLE).select(QUARANTINE_OUTPUT_SCHEMA.fieldNames())
+    return (
+        dp.read_stream(BRONZE_TABLE)
+        .where(f"NOT ({PRIMARY_KEY_CONDITION}) OR NOT ({SKU_FORMAT_CONDITION})")
+        .select(QUARANTINE_OUTPUT_SCHEMA.fieldNames())
+    )
